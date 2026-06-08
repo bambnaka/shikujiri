@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理画面 | 留学しくじり掲示板</title>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z017HF17EP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z017HF17EP');
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; background: #1A1208; color: #FFF9EC; min-height: 100vh; }
+.tape { height: 6px; background: repeating-linear-gradient(90deg, #C94A1A 0, #C94A1A 20px, #E8891A 20px, #E8891A 40px); }
+header { background: #1A1208; border-bottom: 1px solid #3A2A18; }
+.hinner { padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+.site-title { font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 900; font-size: 1.2rem; color: #FFF9EC; }
+.site-title span { color: #C94A1A; }
+.back-link { font-size: 0.75rem; color: #8A7A5A; text-decoration: none; font-family: 'Share Tech Mono', monospace; }
+.back-link:hover { color: #E8891A; }
+
+/* LOGIN */
+#login-screen { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 60px); }
+.login-box { background: #2A1E10; border: 1px solid #3A2A18; border-radius: 4px; padding: 2rem; width: 300px; }
+.login-title { font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; color: #FFF9EC; text-align: center; }
+.login-input { width: 100%; padding: 0.6rem 0.8rem; background: #1A1208; border: 1px solid #3A2A18; border-radius: 3px; color: #FFF9EC; font-size: 0.9rem; font-family: 'Noto Sans JP', sans-serif; margin-bottom: 0.8rem; }
+.login-input:focus { outline: none; border-color: #E8891A; }
+.login-btn { width: 100%; padding: 0.7rem; background: #C94A1A; color: white; border: none; border-radius: 3px; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; }
+.login-btn:hover { background: #A33A10; }
+.login-err { font-size: 0.75rem; color: #E87A7A; margin-top: 0.5rem; text-align: center; display: none; }
+
+/* ADMIN PANEL */
+#admin-panel { display: none; max-width: 900px; margin: 0 auto; padding: 1.5rem 1.2rem 4rem; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.8rem; margin-bottom: 2rem; }
+.stat-card { background: #2A1E10; border: 1px solid #3A2A18; border-radius: 3px; padding: 1rem 1.2rem; }
+.stat-num { font-family: 'Share Tech Mono', monospace; font-size: 1.8rem; color: #E8891A; display: block; line-height: 1; }
+.stat-label { font-size: 0.7rem; color: #8A7A5A; display: block; margin-top: 0.3rem; }
+
+.section-title { font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.85rem; font-weight: 700; color: #8A7A5A; letter-spacing: 0.1em; font-family: 'Share Tech Mono', monospace; margin-bottom: 0.8rem; }
+
+.admin-card { background: #2A1E10; border: 1px solid #3A2A18; border-radius: 3px; margin-bottom: 0.7rem; }
+.admin-card-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem; padding: 0.6rem 1rem; border-bottom: 1px solid #3A2A18; }
+.nick { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; font-weight: 700; color: #E8891A; }
+.dest { font-size: 0.68rem; color: #8A7A5A; background: #1A1208; padding: 2px 7px; border-radius: 2px; border: 1px solid #3A2A18; font-family: 'Share Tech Mono', monospace; }
+.ctime { font-size: 0.62rem; color: #5A4A38; font-family: 'Share Tech Mono', monospace; margin-left: auto; }
+.helpful-count { font-size: 0.68rem; color: #2A7A3A; font-family: 'Share Tech Mono', monospace; }
+.admin-card-body { padding: 0.7rem 1rem; }
+.episode-text { font-size: 0.82rem; color: #C8B898; line-height: 1.7; white-space: pre-wrap; }
+.admin-card-foot { display: flex; justify-content: flex-end; padding: 0.5rem 1rem; border-top: 1px solid #3A2A18; }
+.del-btn { font-size: 0.72rem; color: #E87A7A; border: 1px solid #7A3A3A; padding: 3px 12px; border-radius: 2px; cursor: pointer; background: none; font-family: 'Noto Sans JP', sans-serif; transition: background .1s; }
+.del-btn:hover { background: #3A1A1A; }
+
+.loading { text-align: center; padding: 2rem; color: #5A4A38; font-size: 0.82rem; }
+.empty { text-align: center; padding: 2rem; color: #5A4A38; font-size: 0.82rem; }
+
+/* CONFIRM MODAL */
+.modal-bg { display: none; position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; }
+.modal-bg.show { display: flex; }
+.modal { background: #2A1E10; border: 1px solid #C94A1A; border-radius: 4px; padding: 1.5rem; width: 300px; text-align: center; }
+.modal p { font-size: 0.85rem; color: #C8B898; margin-bottom: 1.2rem; line-height: 1.7; }
+.modal-btns { display: flex; gap: 0.5rem; }
+.modal-cancel { flex: 1; padding: 0.6rem; background: none; border: 1px solid #3A2A18; border-radius: 3px; color: #8A7A5A; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; font-size: 0.85rem; }
+.modal-cancel:hover { border-color: #5A4A38; }
+.modal-delete { flex: 1; padding: 0.6rem; background: #C94A1A; border: none; border-radius: 3px; color: white; cursor: pointer; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.85rem; font-weight: 700; }
+.modal-delete:hover { background: #A33A10; }
+
+.toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px); background: #FFF9EC; color: #1A1208; padding: 0.6rem 1.4rem; border-radius: 3px; font-size: 0.82rem; z-index: 200; transition: transform .28s; white-space: nowrap; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="tape"></div>
+<header>
+  <div class="hinner">
+    <div class="site-title">留学<span>しくじり</span>掲示板 — 管理画面</div>
+    <a class="back-link" href="index.html">← 掲示板に戻る</a>
+  </div>
+</header>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-title">🔐 管理者ログイン</div>
+    <input class="login-input" id="pw-input" type="password" placeholder="パスワード" onkeydown="if(event.key==='Enter')login()">
+    <button class="login-btn" onclick="login()">ログイン</button>
+    <div class="login-err" id="login-err">パスワードが違います</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-num" id="s-total">—</span>
+      <span class="stat-label">総投稿数</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num" id="s-helpful">—</span>
+      <span class="stat-label">総「参考になった」数</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num" id="s-today">—</span>
+      <span class="stat-label">今日の投稿</span>
+    </div>
+  </div>
+
+  <div class="section-title">// ALL POSTS</div>
+  <div id="admin-posts"><div class="loading">読み込み中...</div></div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <p>この投稿を削除しますか？<br>この操作は取り消せません。</p>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal()">キャンセル</button>
+      <button class="modal-delete" onclick="confirmDelete()">削除する</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://bujdylzpyefppgytjjru.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1amR5bHpweWVmcHBneXRqanJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MjQzMDksImV4cCI6MjA5NjUwMDMwOX0.kiFqqtg5WBtKTv3J13cMW6lN7o3Q-JuVLDtwUDvIwp8';
+const H = { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY };
+const ADMIN_PASS = 'sarugamori39';
+
+let deleteTargetId = null;
+
+function login() {
+  const val = document.getElementById('pw-input').value;
+  if (val === ADMIN_PASS) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadAll();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+
+async function loadAll() {
+  try {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/posts?order=created_at.desc', { headers: H });
+    const posts = await res.json();
+    renderStats(posts);
+    renderPosts(posts);
+  } catch(e) {
+    document.getElementById('admin-posts').innerHTML = '<div class="empty">読み込みに失敗しました。</div>';
+  }
+}
+
+function renderStats(posts) {
+  const total = posts.length;
+  const totalHelpful = posts.reduce((s, p) => s + (p.helpful || 0), 0);
+  const today = new Date().toDateString();
+  const todayCount = posts.filter(p => new Date(p.created_at).toDateString() === today).length;
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-helpful').textContent = totalHelpful;
+  document.getElementById('s-today').textContent = todayCount;
+}
+
+function renderPosts(posts) {
+  const el = document.getElementById('admin-posts');
+  if (!posts.length) { el.innerHTML = '<div class="empty">投稿がありません。</div>'; return; }
+  el.innerHTML = posts.map(p => {
+    const t = new Date(p.created_at).toLocaleString('ja-JP', { year:'numeric', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' });
+    return `<div class="admin-card" id="card-${p.id}">
+      <div class="admin-card-meta">
+        <span class="nick">${esc(p.nick)}</span>
+        <span class="dest">📍 ${esc(p.dest)}</span>
+        <span class="helpful-count">👍 ${p.helpful}</span>
+        <span class="ctime">${t}</span>
+      </div>
+      <div class="admin-card-body"><p class="episode-text">${esc(p.episode)}</p></div>
+      <div class="admin-card-foot">
+        <button class="del-btn" onclick="askDelete(${p.id})">削除</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function askDelete(id) {
+  deleteTargetId = id;
+  document.getElementById('modal').classList.add('show');
+}
+
+function closeModal() {
+  deleteTargetId = null;
+  document.getElementById('modal').classList.remove('show');
+}
+
+async function confirmDelete() {
+  if (!deleteTargetId) return;
+  closeModal();
+  try {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/posts?id=eq.' + deleteTargetId, {
+      method: 'DELETE',
+      headers: H
+    });
+    if (!res.ok) throw new Error();
+    const card = document.getElementById('card-' + deleteTargetId);
+    if (card) card.remove();
+    toast('🗑 投稿を削除しました');
+    await loadAll();
+  } catch(e) {
+    toast('⚠ 削除に失敗しました');
+  }
+  deleteTargetId = null;
+}
+
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2600); }
+</script>
+</body>
+</html>
