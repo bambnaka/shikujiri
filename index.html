@@ -4,49 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>留学しくじり掲示板</title>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z017HF17EP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z017HF17EP');
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Noto Sans JP', sans-serif; background: #FDFAF4; color: #1A1208; min-height: 100vh; }
-
 header { background: #1A1208; }
 .tape { height: 6px; background: repeating-linear-gradient(90deg, #C94A1A 0, #C94A1A 20px, #E8891A 20px, #E8891A 40px); }
 .hinner { padding: 1.2rem 2rem 1rem; }
 .site-title { font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 900; font-size: clamp(1.4rem, 4vw, 2rem); color: #FFF9EC; letter-spacing: -0.02em; line-height: 1; }
 .site-sub { display: block; font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; color: #E8891A; letter-spacing: 0.15em; margin-bottom: 0.3rem; }
 .hl { color: #C94A1A; }
-
 .page { max-width: 640px; margin: 0 auto; padding: 1.8rem 1.2rem 4rem; }
-
 .form-wrap { background: #FFFEF9; border: 1px solid #C8B898; border-radius: 3px; box-shadow: 3px 3px 0 #EDE8DA; margin-bottom: 2.2rem; overflow: hidden; }
 .form-head { background: #F5F0E4; border-bottom: 1px solid #C8B898; padding: 0.65rem 1.2rem; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.85rem; font-weight: 700; color: #4A3F28; }
 .form-body { padding: 1.2rem 1.3rem 1.4rem; }
 .fl { display: block; font-size: 0.78rem; font-weight: 700; color: #4A3F28; margin-bottom: 0.28rem; }
 .fg { margin-bottom: 1rem; }
-.fi, .ft {
-  width: 100%; padding: 0.55rem 0.7rem;
-  border: 1px solid #C8B898; border-radius: 3px;
-  font-size: 0.88rem; font-family: 'Noto Sans JP', sans-serif;
-  background: white; color: #1A1208;
-}
+.fi, .ft { width: 100%; padding: 0.55rem 0.7rem; border: 1px solid #C8B898; border-radius: 3px; font-size: 0.88rem; font-family: 'Noto Sans JP', sans-serif; background: white; color: #1A1208; }
 .fi:focus, .ft:focus { outline: none; border-color: #1A1208; box-shadow: 0 0 0 2px rgba(26,18,8,0.1); }
 .ft { min-height: 140px; resize: vertical; line-height: 1.75; }
-.sub-btn {
-  display: block; width: 100%; padding: 0.75rem;
-  background-color: #1A1208; color: #FFF9EC;
-  border: none; border-radius: 3px;
-  font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.95rem; font-weight: 700;
-  cursor: pointer; margin-top: 0.2rem;
-  box-shadow: 2px 2px 0 #000; transition: transform .1s, box-shadow .1s;
-}
+.sub-btn { display: block; width: 100%; padding: 0.75rem; background-color: #1A1208; color: #FFF9EC; border: none; border-radius: 3px; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; margin-top: 0.2rem; box-shadow: 2px 2px 0 #000; transition: transform .1s, box-shadow .1s; }
 .sub-btn:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #000; }
 .sub-btn:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #000; }
-
+.sub-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .posts-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; }
 .posts-label { font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.85rem; font-weight: 700; color: #4A3F28; }
 .badge { background: #C94A1A; color: white; font-size: 0.62rem; padding: 1px 7px; border-radius: 2px; font-family: 'Share Tech Mono', monospace; }
 .empty { text-align: center; padding: 2.5rem 1rem; color: #8A7A5A; font-size: 0.82rem; line-height: 2.2; border: 1px dashed #C8B898; border-radius: 3px; background: #FFFEF9; }
-
+.loading { text-align: center; padding: 2rem; color: #8A7A5A; font-size: 0.82rem; }
 .card { background: #FFFEF9; border: 1px solid #C8B898; border-radius: 3px; margin-bottom: 0.9rem; box-shadow: 2px 2px 0 #EDE8DA; animation: fadein .25s ease; }
 @keyframes fadein { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
 .card-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.3rem; padding: 0.55rem 1.1rem; border-bottom: 1px dashed #C8B898; }
@@ -59,13 +52,11 @@ header { background: #1A1208; }
 .hbtn { font-size: 0.7rem; color: #2A7A3A; font-weight: 700; border: 1px solid #2A7A3A; padding: 2px 10px; border-radius: 2px; cursor: pointer; background: none; font-family: 'Noto Sans JP', sans-serif; transition: background .1s; }
 .hbtn:hover { background: #F0FBF4; }
 .hbtn.voted { opacity: .55; cursor: default; }
-
 .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px); background: #1A1208; color: #FFF9EC; padding: 0.6rem 1.4rem; border-radius: 3px; font-size: 0.82rem; z-index: 100; transition: transform .28s; white-space: nowrap; }
 .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
-
 <header>
   <div class="tape"></div>
   <div class="hinner">
@@ -92,7 +83,7 @@ header { background: #1A1208; }
         <label class="fl">失敗エピソード</label>
         <textarea class="ft" id="f-ep" placeholder="何をしてしまったのか、どうなったか、自由に書いてください。"></textarea>
       </div>
-      <button class="sub-btn" onclick="submit()">投稿する</button>
+      <button class="sub-btn" id="sub-btn" onclick="submitPost()">投稿する</button>
     </div>
   </div>
 
@@ -100,37 +91,71 @@ header { background: #1A1208; }
     <span class="posts-label">みんなのしくじり</span>
     <span class="badge" id="cnt">0</span>
   </div>
-  <div id="posts"></div>
+  <div id="posts"><div class="loading">読み込み中...</div></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-let posts = [];
+const SUPABASE_URL = 'https://bujdylzpyefppgytjjru.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1amR5bHpweWVmcHBneXRqanJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MjQzMDksImV4cCI6MjA5NjUwMDMwOX0.kiFqqtg5WBtKTv3J13cMW6lN7o3Q-JuVLDtwUDvIwp8';
+const H = { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY };
 
-function submit() {
+loadPosts();
+
+async function loadPosts() {
+  try {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/posts?order=created_at.desc', { headers: H });
+    render(await res.json());
+  } catch(e) {
+    document.getElementById('posts').innerHTML = '<div class="empty">読み込みに失敗しました。</div>';
+  }
+}
+
+async function submitPost() {
   const nick = document.getElementById('f-nick').value.trim() || '匿名';
   const dest = document.getElementById('f-dest').value.trim() || '未指定';
   const ep   = document.getElementById('f-ep').value.trim();
   if (!ep) { toast('⚠ 失敗エピソードを入力してください'); return; }
-  posts.unshift({ id: Date.now(), nick, dest, ep, helpful: 0, voted: false, time: new Date() });
-  document.getElementById('f-nick').value = '';
-  document.getElementById('f-dest').value = '';
-  document.getElementById('f-ep').value = '';
-  render();
-  window.scrollTo({ top: document.getElementById('posts').offsetTop - 16, behavior: 'smooth' });
-  toast('✅ 投稿しました！');
+  const btn = document.getElementById('sub-btn');
+  btn.disabled = true; btn.textContent = '投稿中...';
+  try {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/posts', {
+      method: 'POST',
+      headers: { ...H, 'Prefer': 'return=representation' },
+      body: JSON.stringify({ nick, dest, episode: ep })
+    });
+    if (!res.ok) throw new Error();
+    document.getElementById('f-nick').value = '';
+    document.getElementById('f-dest').value = '';
+    document.getElementById('f-ep').value = '';
+    await loadPosts();
+    window.scrollTo({ top: document.getElementById('posts').offsetTop - 16, behavior: 'smooth' });
+    toast('✅ 投稿しました！');
+  } catch(e) {
+    toast('⚠ 投稿に失敗しました。');
+  } finally {
+    btn.disabled = false; btn.textContent = '投稿する';
+  }
 }
 
-function helpful(id) {
-  const p = posts.find(x => x.id === id);
-  if (!p || p.voted) return;
-  p.helpful++; p.voted = true;
-  render();
-  toast('👍 参考になった！');
+async function helpful(id, btn) {
+  btn.classList.add('voted'); btn.onclick = null;
+  try {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/posts?id=eq.' + id + '&select=helpful', { headers: H });
+    const data = await res.json();
+    const current = data[0]?.helpful ?? 0;
+    await fetch(SUPABASE_URL + '/rest/v1/posts?id=eq.' + id, {
+      method: 'PATCH',
+      headers: { ...H, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ helpful: current + 1 })
+    });
+    await loadPosts();
+    toast('👍 参考になった！');
+  } catch(e) { toast('⚠ 更新に失敗しました。'); }
 }
 
-function render() {
+function render(posts) {
   document.getElementById('cnt').textContent = posts.length;
   const el = document.getElementById('posts');
   if (!posts.length) {
@@ -138,16 +163,16 @@ function render() {
     return;
   }
   el.innerHTML = posts.map(p => {
-    const t = p.time.toLocaleString('ja-JP', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' });
+    const t = new Date(p.created_at).toLocaleString('ja-JP', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' });
     return `<div class="card">
       <div class="card-meta">
         <span class="nick">${esc(p.nick)}</span>
         <span class="dest">📍 ${esc(p.dest)}</span>
         <span class="ctime">${t}</span>
       </div>
-      <div class="card-body"><p class="episode">${esc(p.ep)}</p></div>
+      <div class="card-body"><p class="episode">${esc(p.episode)}</p></div>
       <div class="card-foot">
-        <button class="hbtn${p.voted?' voted':''}" onclick="${p.voted?'':'helpful('+p.id+')'}">参考になった 👍 ${p.helpful}</button>
+        <button class="hbtn" onclick="helpful(${p.id}, this)">参考になった 👍 ${p.helpful}</button>
       </div>
     </div>`;
   }).join('');
@@ -155,8 +180,6 @@ function render() {
 
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
 function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2600); }
-
-render();
 </script>
 </body>
 </html>
